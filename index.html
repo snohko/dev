@@ -262,23 +262,6 @@
         </div>
       </section>
 
-      <section class="terminal" aria-label="Interactive terminal demo">
-        <div class="terminal-bar">
-          <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
-          hko@portfolio: ~ — interactive demo
-        </div>
-        <div class="terminal-body">
-          <div class="terminal-output" aria-live="polite">
-            <p>Welcome! This is a simulated terminal. Type <span class="terminal-command">help</span> to get started.</p>
-          </div>
-          <form class="terminal-form">
-            <span class="terminal-prompt" aria-hidden="true">❯</span>
-            <label for="terminal-input" class="terminal-prompt">~</label>
-            <input id="terminal-input" class="terminal-input" type="text" aria-label="Terminal command" autocomplete="off" spellcheck="false">
-          </form>
-        </div>
-      </section>
-
       <section class="work" id="work" aria-labelledby="work-title">
         <div class="section-heading">
           <div>
@@ -311,6 +294,22 @@
         </div>
       </section>
     </main>
+    <footer class="terminal" aria-label="Interactive terminal demo">
+      <div class="terminal-bar">
+        <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+        hko@portfolio: ~ — interactive demo
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-output" aria-live="polite">
+          <p>Welcome! This is a simulated terminal. Type <span class="terminal-command">help</span> to get started.</p>
+        </div>
+        <form class="terminal-form">
+          <span class="terminal-prompt" aria-hidden="true">❯</span>
+          <label for="terminal-input" class="terminal-prompt">~</label>
+          <input id="terminal-input" class="terminal-input" type="text" aria-label="Terminal command" autocomplete="off" spellcheck="false">
+        </form>
+      </div>
+    </footer>
   </div>
   <script>
     const themeButton = document.querySelector('.theme-toggle');
