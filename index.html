@@ -9,10 +9,9 @@
   <script>
     try {
       const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'light' || savedTheme === 'dark') {
-        document.documentElement.dataset.theme = savedTheme;
-      }
+      document.documentElement.dataset.theme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark';
     } catch (error) {
+      document.documentElement.dataset.theme = 'dark';
       console.warn('Theme preference could not be loaded.', error);
     }
   </script>
@@ -149,6 +148,45 @@
       font-weight: 800;
       transform: rotate(7deg);
     }
+    .terminal {
+      margin: 0 0 100px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font: 12px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    .terminal-dots { display: flex; gap: 5px; margin-right: 8px; }
+    .terminal-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+    .terminal-body {
+      padding: 22px;
+      font: 13px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    .terminal-output { max-height: 240px; overflow-y: auto; overflow-wrap: anywhere; }
+    .terminal-output p { margin: 0 0 5px; white-space: pre-wrap; }
+    .terminal-command { color: var(--accent); }
+    .terminal-form { display: flex; align-items: center; gap: 9px; }
+    .terminal-prompt { color: var(--accent); font-weight: 700; }
+    .terminal-input {
+      min-width: 0;
+      flex: 1;
+      padding: 5px 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+    }
+    .terminal-input:focus { outline: none; }
+    .terminal-input:focus-visible { box-shadow: 0 2px var(--accent); }
     .work { padding-bottom: 105px; }
     .section-heading {
       display: flex;
@@ -187,6 +225,7 @@
       .avatar-badge { right: -26px; bottom: 0; font-size: 10px; }
       h1 { font-size: clamp(43px, 10vw, 62px); }
       .grid { grid-template-columns: 1fr; }
+      .terminal { margin-bottom: 70px; }
       .section-note { display: none; }
       .work { padding-bottom: 64px; }
     }
@@ -220,6 +259,23 @@
         <div class="avatar-wrap" aria-label="Developer avatar">
           <div class="avatar" aria-hidden="true">🧑🏻‍💻</div>
           <span class="avatar-badge">hello there ✳</span>
+        </div>
+      </section>
+
+      <section class="terminal" aria-label="Interactive terminal demo">
+        <div class="terminal-bar">
+          <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+          hko@portfolio: ~ — interactive demo
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-output" aria-live="polite">
+            <p>Welcome! This is a simulated terminal. Type <span class="terminal-command">help</span> to get started.</p>
+          </div>
+          <form class="terminal-form">
+            <span class="terminal-prompt" aria-hidden="true">❯</span>
+            <label for="terminal-input" class="terminal-prompt">~</label>
+            <input id="terminal-input" class="terminal-input" type="text" aria-label="Terminal command" autocomplete="off" spellcheck="false">
+          </form>
         </div>
       </section>
 
@@ -284,6 +340,35 @@
     });
     darkPreference.addEventListener('change', updateThemeButton);
     updateThemeButton();
+
+    const terminalForm = document.querySelector('.terminal-form');
+    const terminalInput = document.querySelector('.terminal-input');
+    const terminalOutput = document.querySelector('.terminal-output');
+    const commands = {
+      help: 'Available commands: about, projects, clear',
+      about: "I'm hko, a creative developer who likes making thoughtful things for the web.",
+      projects: 'Greenhouse · Northstar · Goodgrounds · Daywave'
+    };
+
+    terminalForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const command = terminalInput.value.trim();
+      terminalInput.value = '';
+      if (!command) return;
+      if (command.toLowerCase() === 'clear') {
+        terminalOutput.replaceChildren();
+        return;
+      }
+      const entered = document.createElement('p');
+      entered.className = 'terminal-command';
+      entered.textContent = `❯ ~ ${command}`;
+      const response = document.createElement('p');
+      response.textContent = Object.hasOwn(commands, command.toLowerCase())
+        ? commands[command.toLowerCase()]
+        : `Command not found: ${command}. Try help.`;
+      terminalOutput.append(entered, response);
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    });
   </script>
 </body>
 </html>
