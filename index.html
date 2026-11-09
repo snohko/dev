@@ -189,7 +189,8 @@
     .terminal-input:focus-visible { box-shadow: 0 2px var(--accent); }
     .footer-links {
       display: flex;
-      gap: 20px;
+      flex-wrap: wrap;
+      gap: 10px 20px;
       padding: 14px 22px;
       border-top: 1px solid var(--line);
       font-size: 13px;
@@ -251,6 +252,7 @@
       <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">h.</span> hko</a>
       <nav class="nav-actions" aria-label="Main navigation">
         <a class="nav-link" href="#work">Selected work</a>
+        <a class="nav-link" href="#contact">Contact</a>
         <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"></path>
@@ -304,7 +306,7 @@
         </div>
       </section>
     </main>
-    <footer class="terminal" aria-label="Interactive terminal demo">
+    <footer class="terminal" id="contact" aria-label="Terminal and contact links">
       <div class="terminal-bar">
         <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
         hko@portfolio: ~ — interactive demo
