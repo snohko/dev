@@ -301,7 +301,7 @@
       </div>
       <div class="terminal-body">
         <div class="terminal-output" aria-live="polite">
-          <p>Welcome! This is a simulated terminal. Type <span class="terminal-command">help</span> to get started.</p>
+          <p>Welcome! This is a simulated terminal, not a real shell. Type <span class="terminal-command">help</span> to get started.</p>
         </div>
         <form class="terminal-form">
           <span class="terminal-prompt" aria-hidden="true">❯</span>
@@ -343,11 +343,29 @@
     const terminalForm = document.querySelector('.terminal-form');
     const terminalInput = document.querySelector('.terminal-input');
     const terminalOutput = document.querySelector('.terminal-output');
-    const commands = {
-      help: 'Available commands: about, projects, clear',
-      about: "I'm hko, a creative developer who likes making thoughtful things for the web.",
-      projects: 'Greenhouse · Northstar · Goodgrounds · Daywave'
-    };
+    function runDemoCommand(command) {
+      const [name, ...args] = command.toLowerCase().split(/\s+/);
+      switch (name) {
+        case 'help':
+          return 'Available commands: about, projects, whois, ping, uname -a, neofetch, clear\nNetwork commands are simulated; no requests are sent.';
+        case 'about':
+          return "I'm hko, a creative developer who likes making thoughtful things for the web.";
+        case 'projects':
+          return 'Greenhouse · Northstar · Goodgrounds · Daywave';
+        case 'whois':
+          return args.length ? `Demo WHOIS for ${args.join(' ')}\nNo real lookup was performed.` : 'hko — creative developer\nBuilding thoughtful things for the web.';
+        case 'ping':
+          return args.length ? `Simulated ping to ${args.join(' ')}: demo response, no network request sent.` : 'Usage: ping <host> (simulated)';
+        case 'uname':
+          return args.length === 1 && args[0] === '-a'
+            ? 'Portfolio OS hko 1.0 demo browser — simulated output'
+            : 'Usage: uname -a';
+        case 'neofetch':
+          return '  ✳  hko@portfolio\n  ─────────────────\n  OS: Portfolio OS (demo)\n  Host: Your browser\n  Shell: Simulated terminal\n  Projects: 4';
+        default:
+          return `Command not found: ${command}. Try help.`;
+      }
+    }
 
     terminalForm.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -362,9 +380,7 @@
       entered.className = 'terminal-command';
       entered.textContent = `❯ ~ ${command}`;
       const response = document.createElement('p');
-      response.textContent = Object.hasOwn(commands, command.toLowerCase())
-        ? commands[command.toLowerCase()]
-        : `Command not found: ${command}. Try help.`;
+      response.textContent = runDemoCommand(command);
       terminalOutput.append(entered, response);
       terminalOutput.scrollTop = terminalOutput.scrollHeight;
     });
