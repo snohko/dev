@@ -187,6 +187,16 @@
     }
     .terminal-input:focus { outline: none; }
     .terminal-input:focus-visible { box-shadow: 0 2px var(--accent); }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      padding: 14px 22px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .footer-links a { color: var(--accent); text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; }
     .work { padding-bottom: 105px; }
     .section-heading {
       display: flex;
@@ -309,6 +319,10 @@
           <input id="terminal-input" class="terminal-input" type="text" aria-label="Terminal command" autocomplete="off" spellcheck="false">
         </form>
       </div>
+      <nav class="footer-links" aria-label="External links">
+        <a href="https://knaz.nu">knaz.nu</a>
+        <a href="https://c9.nu">c9.nu</a>
+      </nav>
     </footer>
   </div>
   <script>
